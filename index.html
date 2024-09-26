@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="left-pane">
+        <h2>Questions</h2>
+        <!-- List of questions will appear here -->
+        <div id="questions-list">
+            <p>No questions yet. Ask something!</p>
+        </div>
+    </div>
+
+    <div id="right-pane">
+        <!-- Default form to ask questions -->
+        <div id="question-form" class="form-section">
+            <h2>Ask a Question</h2>
+            <div class="form-field">
+                <label for="title">Title (Required)</label>
+                <input type="text" id="title" required>
+            </div>
+            <div class="form-field">
+                <label for="question">Question (Required)</label>
+                <textarea id="question" rows="4" required></textarea>
+            </div>
+            <button onclick="submitQuestion()">Submit Question</button>
+        </div>
+
+        <!-- Question detail & response form -->
+        <div id="question-detail" class="form-section" style="display:none;">
+            <h2 id="selected-question-title"></h2>
+            <p id="selected-question-text"></p>
+
+            <div class="form-field">
+                <label for="response-name">Name (Required)</label>
+                <input type="text" id="response-name" required>
+            </div>
+            <div class="form-field">
+                <label for="response-comment">Comment (Required)</label>
+                <textarea id="response-comment" rows="3" required></textarea>
+            </div>
+            <button onclick="submitResponse()">Submit Response</button>
+
+            <!-- Resolve button -->
+            <button class="resolve-btn" onclick="resolveQuestion()">Resolve</button>
+
+            <!-- Previous Responses -->
+            <div id="responses" class="previous-answers">
+                <h3>Previous Responses:</h3>
+                <!-- Responses will be appended here -->
+            </div>
+            <!-- Back to Ask Question button -->
+            <button class="back-btn" onclick="goBackToQuestionForm()">Back to Ask a Question</button>
+        </div>
+    </div>
+
+    <script>
+        let questions = []; // Store all questions and responses
+        let selectedQuestionIndex = null;
+
+        // Submit a new question
+        function submitQuestion() {
+            const title = document.getElementById("title").value.trim();
+            const questionText = document.getElementById("question").value.trim();
+            
+            if (title && questionText) {
+                const question = { title, questionText, responses: [] };
+                questions.push(question);
+                
+                // Clear the form
+                document.getElementById("title").value = "";
+                document.getElementById("question").value = "";
+
+                // Update the questions list on the left pane
+                displayQuestions();
+            } else {
+                alert("Both Title and Question are required!");
+            }
+        }
+
+        // Display questions on the left pane
+        function displayQuestions() {
+            const questionsList = document.getElementById("questions-list");
+            questionsList.innerHTML = "";
+
+            if (questions.length === 0) {
+                questionsList.innerHTML = "<p>No questions yet. Ask something!</p>";
+                return;
+            }
+
+            questions.forEach((question, index) => {
+                const questionBox = document.createElement("div");
+                questionBox.className = "question-box";
+                questionBox.innerHTML = `<strong>${question.title}</strong>`;
+                questionBox.onclick = () => selectQuestion(index);
+                questionsList.appendChild(questionBox);
+            });
+        }
+
+        // Select a question and show its details
+        function selectQuestion(index) {
+            selectedQuestionIndex = index;
+            const selectedQuestion = questions[index];
+            
+            document.getElementById("selected-question-title").innerText = selectedQuestion.title;
+            document.getElementById("selected-question-text").innerText = selectedQuestion.questionText;
+
+            // Show the question detail and response form, hide the question form
+            document.getElementById("question-form").style.display = "none";
+            document.getElementById("question-detail").style.display = "block";
+
+            // Clear the response form
+            document.getElementById("response-name").value = "";
+            document.getElementById("response-comment").value = "";
+
+            // Display existing responses
+            displayResponses();
+        }
+
+        // Submit a new response to the selected question
+        function submitResponse() {
+            const name = document.getElementById("response-name").value.trim();
+            const comment = document.getElementById("response-comment").value.trim();
+
+            if (name && comment) {
+                const response = { name, comment };
+                questions[selectedQuestionIndex].responses.push(response);
+
+                // Clear the response form
+                document.getElementById("response-name").value = "";
+                document.getElementById("response-comment").value = "";
+
+                // Update the responses section
+                displayResponses();
+            } else {
+                alert("Both Name and Comment are required!");
+            }
+        }
+
+        // Display responses in the right pane
+        function displayResponses() {
+            const responsesDiv = document.getElementById("responses");
+            responsesDiv.innerHTML = "<h3>Previous Responses:</h3>"; // Clear previous responses
+
+            questions[selectedQuestionIndex].responses.forEach(response => {
+                const responseBox = document.createElement("div");
+                responseBox.className = "response-box";
+                responseBox.innerHTML = `<strong>${response.name}:</strong> <p>${response.comment}</p>`;
+                responsesDiv.appendChild(responseBox);
+            });
+        }
+
+        // Resolve the current question
+        function resolveQuestion() {
+            if (selectedQuestionIndex !== null) {
+                questions.splice(selectedQuestionIndex, 1); // Remove the selected question
+                selectedQuestionIndex = null;
+
+                // Go back to the question form
+                document.getElementById("question-detail").style.display = "none";
+                document.getElementById("question-form").style.display = "block";
+
+                // Update the question list
+                displayQuestions();
+            }
+        }
+
+        // Go back to the Ask Question form
+        function goBackToQuestionForm() {
+            document.getElementById("question-detail").style.display = "none";
+            document.getElementById("question-form").style.display = "block";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+    background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+    color: #333;
+    overflow: hidden;
+}
+#left-pane, #right-pane {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+}
+#left-pane {
+    background: white;
+    border-right: 1px solid #ddd;
+    transition: all 0.5s ease;
+}
+#right-pane {
+    padding-left: 30px;
+    background: rgba(255, 255, 255, 0.8);
+    border-left: 1px solid #ddd;
+    transition: all 0.5s ease;
+}
+h2, h3 {
+    color: #2C3E50;
+}
+.form-section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+.form-section:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+.form-field {
+    margin-bottom: 15px;
+}
+.form-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #34495E;
+}
+.form-field input, .form-field textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    transition: border 0.3s ease;
+}
+.form-field input:focus, .form-field textarea:focus {
+    border: 2px solid #007BFF;
+    outline: none;
+}
+button {
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #74ebd5, #ACB6E5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    font-weight: bold;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+button:hover {
+    background: linear-gradient(45deg, #ACB6E5, #74ebd5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.resolve-btn {
+    background: linear-gradient(45deg, #56ab2f, #a8e063);
+    margin-top: 20px;
+}
+.resolve-btn:hover {
+    background: linear-gradient(45deg, #a8e063, #56ab2f);
+}
+#left-pane h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #2C3E50;
+}
+.question-box {
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.question-box:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+.response-box {
+    padding: 10px;
+    background-color: #f1f1f1;
+    margin-bottom: 10px;
+    border-left: 4px solid #007BFF;
+    border-radius: 6px;
+}
+.previous-answers {
+    margin-top: 20px;
+}
+.previous-answers h3 {
+    color: #34495E;
+}
+@media only screen and (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    #left-pane, #right-pane {
+        flex: none;
+        width: 100%;
+    }
+    #right-pane {
+        padding-left: 15px;
+    }
+}
+/* Back button */
+.back-btn {
+    margin-top: 20px;
+    background: linear-gradient(45deg, #FF416C, #FF4B2B);
+}
+.back-btn:hover {
+    background: linear-gradient(45deg, #FF4B2B, #FF416C);
+}
